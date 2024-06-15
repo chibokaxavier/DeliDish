@@ -38,10 +38,10 @@ const Footer = () => {
               About us
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Services
+              Menu
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Blog
+              Services
             </div>
           </div>
           <div className="text-gray-400">
@@ -56,7 +56,7 @@ const Footer = () => {
               Find a location
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Get an opinion
+              Give a review
             </div>
           </div>
           <div className="text-gray-400">
