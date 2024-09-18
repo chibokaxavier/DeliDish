@@ -3,5 +3,11 @@
 @tailwind utilities;
 
 body {
-    font-family: var(--font-jetbrainsMono, monospace) !important;
-  }
+  font-family: var(--font-jetbrainsMono, monospace) !important;
+}
+
+.banner {
+  background-image: url("/banner.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}

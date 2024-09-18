@@ -10,13 +10,13 @@ import { FaShoppingBasket } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="py-8 xl:py-12 mx-20">
+    <header className="py-8 xl:py-12 lg:mx-20 mx-5">
       <div className=" flex justify-between items-center">
         <Link href={"/"}>
-          <h1 className="text-4xl font-semibold text-rose-600">
+          <h1 className="md:text-4xl text-2xl font-semibold text-rose-600">
             <span className="flex gap-2 items-center justify-center">
               {" "}
-              <GiFoodTruck className="text-5xl mb-4" />{" "}
+              <GiFoodTruck className="md:text-5xl text-4xl mb-4" />{" "}
               <span className="">DeliDish</span>
               <span className="text-accent">.</span>
             </span>
