@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { NextUIProvider } from "@nextui-org/react";
+import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -21,9 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jetBrainsMono.variable}>
-        <Header />
-
-        {children}
+        <PrimeReactProvider>
+          <NextUIProvider>
+            <Header />
+            {children}
+          </NextUIProvider>
+        </PrimeReactProvider>
       </body>
     </html>
   );

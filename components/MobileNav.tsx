@@ -1,8 +1,9 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
+import { Sidebar } from "primereact/sidebar";
+import { useState } from "react";
 
 const MobileNav = () => {
   const links = [
@@ -28,12 +29,14 @@ const MobileNav = () => {
     },
   ];
   const pathName = usePathname();
+  const [visible, setVisible] = useState(false);
   return (
-    <Sheet>
-      <SheetTrigger className="flex justify-center items-center">
-        <CiMenuFries className="text-[32px] text-accent" />
-      </SheetTrigger>
-      <SheetContent className="flex flex-col">
+    <>
+      <CiMenuFries
+        onClick={() => setVisible(true)}
+        className="text-[32px] text-accent"
+      />
+      <Sidebar visible={visible} position="right"  onHide={() => setVisible(false)}>
         <div className="mt-32 mb-40 text-center text-2xl">
           <Link href={"/"}>
             <h1 className="tetx-4xl font-semibold">
@@ -57,8 +60,8 @@ const MobileNav = () => {
             );
           })}
         </nav>
-      </SheetContent>
-    </Sheet>
+      </Sidebar>
+    </>
   );
 };
 
