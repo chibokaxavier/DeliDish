@@ -12,6 +12,9 @@ const FoodDisplay = ({ category, setCategory }: CategoryProps) => {
   return (
     <div>
       <h2>Top dishes near you</h2>
+      {food_list.map((item, index) => {
+        return <div>gh</div>;
+      })}
     </div>
   );
 };
