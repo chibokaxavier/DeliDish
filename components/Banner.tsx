@@ -3,7 +3,7 @@ import React from "react";
 const Banner = () => {
   return (
     <section>
-      <div className="h-auto my-[10px] flex flex-col xl:flex-row xl:gap-[90px] items-center">
+      <div className="xl:h-[550px] h-auto mt-[10px] flex flex-col xl:flex-row xl:gap-[90px]">
         {/* Text Section */}
         <div className="xl:w-[50%]">
           <h2 className="font-bold lg:text-5xl text-3xl">
