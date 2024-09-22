@@ -1,6 +1,7 @@
 "use client";
 import { StoreContext, useStoreContext } from "@/context/StoreContext";
 import React, { useContext } from "react";
+import FoodItem from "./FoodItem";
 
 interface CategoryProps {
   category: string;
@@ -10,11 +11,24 @@ interface CategoryProps {
 const FoodDisplay = ({ category, setCategory }: CategoryProps) => {
   const { food_list } = useStoreContext();
   return (
-    <div>
-      <h2>Top dishes near you</h2>
-      {food_list.map((item, index) => {
-        return <div>gh</div>;
-      })}
+    <div className="mt-7">
+      <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
+        Top dishes near you
+      </h2>
+      <div className="grid grid-cols-4 mt-7 gap-7">
+        {food_list.map((item, index) => {
+          return (
+            <FoodItem
+              key={index}
+              id={item._id}
+              name={item.name}
+              description={item.description}
+              price={item.price}
+              image={item.image}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
