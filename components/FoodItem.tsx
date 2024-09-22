@@ -1,11 +1,11 @@
 "use client";
+import { useStoreContext } from "@/context/StoreContext";
 import { Rating } from "primereact/rating";
-import React, { useState } from "react";
-import { CiStar } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { TbStarFilled } from "react-icons/tb";
+
 interface FoodItemProps {
-  id: string;
+  id: number;
   name: string;
   price: number;
   description: string;
@@ -14,26 +14,29 @@ interface FoodItemProps {
 
 const FoodItem = ({ id, name, price, description, image }: FoodItemProps) => {
   const [value, setValue] = useState<number | undefined>(0);
-  const [count, setCount] = useState(0);
+  const { cartItems, addToCart, removeFromCart } = useStoreContext();
+
+  // Set count based on cartItems
+  const count = cartItems[id]?.quantity || 0;
 
   return (
     <div className="food-item rounded-2xl shadow-stone-300 shadow-md animate-appearance-in transition duration-500">
       <div className="relative">
         <img src={image} alt="" className="w-full rounded-t-2xl" />
-        
+
         <div className="absolute top-[200px] right-[20px] flex items-center">
           {count === 0 ? (
             <div className="bg-white h-8 w-8 cursor-pointer flex justify-center items-center rounded-full">
-              <FaPlus onClick={() => setCount((prev) => prev + 1)} />
+              <FaPlus onClick={() => addToCart(id)} />
             </div>
           ) : (
             <div className="flex items-center bg-white p-1 rounded-3xl gap-3">
               <div className="bg-red-300 h-8 w-8 cursor-pointer flex justify-center items-center text-red-800 rounded-full">
-                <FaMinus onClick={() => setCount((prev) => prev - 1)} />
+                <FaMinus onClick={() => removeFromCart(id)} />
               </div>
               <p>{count}</p>
               <div className="bg-green-300 h-8 w-8 cursor-pointer flex justify-center items-center text-green-800 rounded-full">
-                <FaPlus onClick={() => setCount((prev) => prev + 1)} />
+                <FaPlus onClick={() => addToCart(id)} />
               </div>
             </div>
           )}
