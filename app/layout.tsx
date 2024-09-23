@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { NextUIProvider } from "@nextui-org/react";
 import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import { StoreContextProvider } from "@/context/StoreContext";
+import Footer from "@/components/Footer";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
             <NextUIProvider>
               <Header />
               {children}
+              <Footer/>
             </NextUIProvider>
           </PrimeReactProvider>
         </StoreContextProvider>
