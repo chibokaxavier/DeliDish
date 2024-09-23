@@ -1,4 +1,5 @@
 "use client";
+import AppDownload from "@/components/AppDownload";
 import Banner from "@/components/Banner";
 import ExploreMenu from "@/components/ExploreMenu";
 import FoodDisplay from "@/components/FoodDisplay";
@@ -18,6 +19,9 @@ export default function Home() {
       </section>
       <section>
         <FoodDisplay category={category} setCategory={setCategory} />
+      </section>
+      <section>
+        <AppDownload/>
       </section>
     </div>
   );

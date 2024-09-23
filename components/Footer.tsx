@@ -13,10 +13,10 @@ const Footer = () => {
     <footer className="flex flex-col  text-gray-400 ">
       <div className="flex  xl:flex-row flex-col justify-evenly pt-20 pb-5 px-5 bg-black">
         <div className="pb-20">
-          <p className="text-4xl pb-3 gap-2  flex items-center justify-self-center8 font-bold">
+          <p className="text-4xl pb-3 gap-2 text-rose-600  flex items-center justify-self-center8 font-bold">
             <span>
               {" "}
-              < GiFoodTruck/>
+              <GiFoodTruck />
             </span>
             DeliDish
           </p>
@@ -28,9 +28,11 @@ const Footer = () => {
             <FaTwitter className="social" />
           </div>
         </div>
-        <div className="grid xl:grid-cols-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20 pb-10">
+        <div className="grid xl:grid-cols-2 grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-20 pb-10">
           <div className="text-gray-400">
-            <p className="mb-10 font-bold text-white">Quick Links</p>
+            <p className="mb-6 font-bold text-white text-2xl capitalize">
+              COMPANY
+            </p>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
               Home
             </div>
@@ -38,42 +40,22 @@ const Footer = () => {
               About us
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Menu
+              Delivery
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Services
+              Privacy Policy
             </div>
           </div>
           <div className="text-gray-400">
-            <p className="mb-10 font-bold text-white">I want to </p>
+            <p className="mb-6 font-bold text-white text-2xl">GET IN TOUCH </p>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Book a Chef
+              +1 789 5422
             </div>
             <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Order a Meal
-            </div>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Find a location
-            </div>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Give a review
+              delidish@gmail.com
             </div>
           </div>
-          <div className="text-gray-400">
-            <p className="mb-10 font-bold text-white">Support</p>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Donate
-            </div>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Contact us
-            </div>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              Product Returns
-            </div>
-            <div className="cursor-pointer hover:text-white transition-all ease-in-out py-1">
-              FAQs
-            </div>
-          </div>
+       
         </div>
       </div>
     </footer>
