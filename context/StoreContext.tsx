@@ -95,6 +95,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   useEffect(()=>{
 console.log(cartItems);
   },[cartItems])
+  
   const contextValue: StoreContextType = {
     food_list,
     cartItems,

@@ -19,7 +19,12 @@ const ExploreMenu = ({ category, setCategory }: CategoryProps) => {
         {menu_list.map((item, i) => {
           return (
             <div
-              onClick={() => setCategory(item.menu_name)}
+              onClick={() =>
+                // Set category to "All" if the clicked menu is already active
+                category === item.menu_name
+                  ? setCategory("All")
+                  : setCategory(item.menu_name)
+              }
               key={i}
               className="flex flex-col items-center min-w-[150px] cursor-pointer"
             >
@@ -27,7 +32,7 @@ const ExploreMenu = ({ category, setCategory }: CategoryProps) => {
                 src={item.menu_image}
                 className={`${
                   category === item.menu_name
-                    ? "border-2 border-rose-600 p-1 transition-all ease-in-out  rounded-full"
+                    ? " border-rose-600 p-1 border-[4px]  transition-all ease-in-out  rounded-full"
                     : ""
                 } w-[150px] h-[150px] object-cover`}
                 alt={item.menu_name}
