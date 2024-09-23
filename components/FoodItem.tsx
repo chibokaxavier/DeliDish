@@ -24,7 +24,7 @@ const FoodItem = ({ id, name, price, description, image }: FoodItemProps) => {
       <div className="relative">
         <img src={image} alt="" className="w-full rounded-t-2xl" />
 
-        <div className="absolute top-[200px] right-[20px] flex items-center">
+        <div className="absolute xl:top-[200px] lg:top-[160px] md:bottom-[30px] bottom-[40px] right-[20px] flex items-center">
           {count === 0 ? (
             <div className="bg-white h-8 w-8 cursor-pointer flex justify-center items-center rounded-full">
               <FaPlus onClick={() => addToCart(id)} />
