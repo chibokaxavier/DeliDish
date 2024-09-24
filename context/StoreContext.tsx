@@ -1,6 +1,14 @@
 "use client";
 import { food_list } from "@/public/assets";
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface ProviderProps {
   children: ReactNode;
@@ -29,12 +37,15 @@ interface StoreContextType {
   setCartItems: Dispatch<SetStateAction<{ [key: number]: CartItem }>>;
   addToCart: (itemId: number) => void;
   removeFromCart: (itemId: number) => void;
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
   const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>({});
+  const [visible, setVisible] = useState(false);
 
   const addToCart = (itemId: number) => {
     const item = food_list.find((food) => food._id === itemId);
@@ -92,16 +103,18 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     });
   };
 
-  useEffect(()=>{
-console.log(cartItems);
-  },[cartItems])
-  
+  useEffect(() => {
+    console.log(cartItems);
+  }, [cartItems]);
+
   const contextValue: StoreContextType = {
     food_list,
     cartItems,
     setCartItems,
     addToCart,
     removeFromCart,
+    visible,
+    setVisible,
   };
 
   return (
@@ -114,7 +127,9 @@ console.log(cartItems);
 export const useStoreContext = () => {
   const context = useContext(StoreContext);
   if (!context) {
-    throw new Error("useStoreContext must be used within a StoreContextProvider");
+    throw new Error(
+      "useStoreContext must be used within a StoreContextProvider"
+    );
   }
   return context;
 };

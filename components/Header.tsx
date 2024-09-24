@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import React from "react";
 import Nav from "@/components/Nav";
@@ -7,8 +8,10 @@ import MobileNav from "./MobileNav";
 import { GiFoodTruck } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
 import { FaShoppingBasket } from "react-icons/fa";
+import { useStoreContext } from "@/context/StoreContext";
 
 const Header = () => {
+  const { setVisible, visible } = useStoreContext();
   return (
     <header className="py-8  lg:mx-20 sm:mx-10 mx-5">
       <div className=" flex justify-between items-center">
@@ -29,11 +32,14 @@ const Header = () => {
           <div className="h-3 w-3 rounded-full bg-rose-600 absolute -top-2 left-24 " />
           <CiSearch className="text-4xl cursor-pointer " />
           <FaShoppingBasket className="text-4xl cursor-pointer " />
-          <Link href={"/contact"}>
-            <Button className="bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out">
+         
+            <Button
+              onClick={() => setVisible(true)}
+              className="bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
+            >
               Sign in{" "}
             </Button>
-          </Link>
+          
         </div>
         <div className="xl:hidden">
           <MobileNav />
