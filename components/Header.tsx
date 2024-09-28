@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Link from "next/link";
 import React from "react";
 import Nav from "@/components/Nav";
@@ -30,16 +30,17 @@ const Header = () => {
         </div>
         <div className="hidden xl:flex gap-7 relative justify-center items-center">
           <div className="h-3 w-3 rounded-full bg-rose-600 absolute -top-2 left-24 " />
+
           <CiSearch className="text-4xl cursor-pointer " />
-          <FaShoppingBasket className="text-4xl cursor-pointer " />
-         
-            <Button
-              onClick={() => setVisible(true)}
-              className="bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
-            >
-              Sign in{" "}
-            </Button>
-          
+          <Link href={"/cart"}>
+            <FaShoppingBasket className="text-4xl cursor-pointer " />
+          </Link>
+          <Button
+            onClick={() => setVisible(true)}
+            className="bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
+          >
+            Sign in{" "}
+          </Button>
         </div>
         <div className="xl:hidden">
           <MobileNav />
