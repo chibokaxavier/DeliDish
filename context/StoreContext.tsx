@@ -38,13 +38,21 @@ interface StoreContextType {
   addToCart: (itemId: number) => void;
   removeFromCart: (itemId: number) => void;
   visible: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>
+  setVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
-  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>({});
+  // Load initial cartItems from localStorage if available
+  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(() => {
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem("cartItems");
+      return storedCart ? JSON.parse(storedCart) : {};
+    }
+    return {};
+  });
+
   const [visible, setVisible] = useState(false);
 
   const addToCart = (itemId: number) => {
@@ -103,8 +111,11 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     });
   };
 
+  // Save cartItems to localStorage whenever it changes
   useEffect(() => {
-    console.log(cartItems);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   const contextValue: StoreContextType = {

@@ -11,7 +11,7 @@ interface FoodItemProps {
   description: string;
   image: string;
 }
-
+3
 const FoodItem = ({ id, name, price, description, image }: FoodItemProps) => {
   const [value, setValue] = useState<number | undefined>(0);
   const { cartItems, addToCart, removeFromCart } = useStoreContext();
