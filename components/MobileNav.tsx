@@ -34,7 +34,7 @@ const MobileNav = () => {
     <>
       <CiMenuFries
         onClick={() => setVisible(true)}
-        className="text-[32px] text-accent"
+        className="text-[25px]"
       />
       <Sidebar visible={visible} position="right"  onHide={() => setVisible(false)}>
         <div className="mt-32 mb-40 text-center text-2xl">

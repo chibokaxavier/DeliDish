@@ -9,6 +9,7 @@ import { GiFoodTruck } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useStoreContext } from "@/context/StoreContext";
+import { RxAvatar } from "react-icons/rx";
 
 const Header = () => {
   const { setVisible, visible } = useStoreContext();
@@ -28,22 +29,25 @@ const Header = () => {
         <div className="hidden xl:flex gap-8 justify-center items-center">
           <Nav />
         </div>
-        <div className="hidden xl:flex gap-7 relative justify-center items-center">
-          <div className="h-3 w-3 rounded-full bg-rose-600 absolute -top-2 left-24 " />
+        <div className="flex items-center">
+          <div className="flex md:gap-7 gap-3 relative justify-center items-center">
+            <div className="h-3 w-3 rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16  " />
 
-          <CiSearch className="text-4xl cursor-pointer " />
-          <Link href={"/cart"}>
-            <FaShoppingBasket className="text-4xl cursor-pointer " />
-          </Link>
-          <Button
-            onClick={() => setVisible(true)}
-            className="bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
-          >
-            Sign in{" "}
-          </Button>
-        </div>
-        <div className="xl:hidden">
-          <MobileNav />
+            <CiSearch className="md:text-4xl text-2xl cursor-pointer " />
+            <Link href={"/cart"}>
+              <FaShoppingBasket className="md:text-4xl text-2xl cursor-pointer " />
+            </Link>
+            {/* <Button
+              onClick={() => setVisible(true)}
+              className="hidden lg:block bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
+            >
+              Sign in{" "}
+            </Button> */}
+            <RxAvatar className=" cursor-pointer md:text-4xl text-2xl mr-3"  onClick={() => setVisible(true)} />
+          </div>
+          <div className="xl:hidden">
+            <MobileNav />
+          </div>
         </div>
       </div>
     </header>

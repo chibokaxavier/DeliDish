@@ -29,7 +29,7 @@ const page = () => {
                     className="text-black grid grid-cols-6 items-center text-sm py-2 font-bold"
                   >
                     <img src={item.image} alt="" className="w-[50px]" />
-                    <p>{item.name}</p>
+                    <p className="w-[55px] sm:w-[80px] md:w-[110px] lg:w-auto truncate">{item.name}</p>
                     <p>${item.price}</p> <p>{cartItem.quantity}</p>
                     <p>${item.price * cartItem.quantity}</p>{" "}
                     <p>
