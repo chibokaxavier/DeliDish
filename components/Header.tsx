@@ -13,7 +13,7 @@ import { RxAvatar } from "react-icons/rx";
 
 const Header = () => {
   const { setVisible, visible } = useStoreContext();
-  const { getTotalCartAmount } = useStoreContext();
+  const { getTotalCartAmount, cartItems } = useStoreContext();
   return (
     <header className="py-8  lg:mx-20 sm:mx-10 mx-5">
       <div className=" flex justify-between items-center">
@@ -35,8 +35,10 @@ const Header = () => {
             <div
               className={`${
                 getTotalCartAmount() === 0 ? "hidden" : "block"
-              } h-3 w-3 rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16 `}
-            />
+              } h-4 w-4 text-white flex justify-center text-xs items-center rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16 `}
+            >
+              {Object.keys(cartItems).length}
+            </div>
 
             <CiSearch className="md:text-4xl text-2xl cursor-pointer " />
             <Link href={"/cart"}>
