@@ -39,19 +39,22 @@ interface StoreContextType {
   removeFromCart: (itemId: number) => void;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  getTotalCartAmount: () => number;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
   // Load initial cartItems from localStorage if available
-  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(() => {
-    if (typeof window !== "undefined") {
-      const storedCart = localStorage.getItem("cartItems");
-      return storedCart ? JSON.parse(storedCart) : {};
+  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(
+    () => {
+      if (typeof window !== "undefined") {
+        const storedCart = localStorage.getItem("cartItems");
+        return storedCart ? JSON.parse(storedCart) : {};
+      }
+      return {};
     }
-    return {};
-  });
+  );
 
   const [visible, setVisible] = useState(false);
 
@@ -111,6 +114,22 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     });
   };
 
+  const getTotalCartAmount = () => {
+    let totalAmount = 0;
+    for (const item in cartItems) {
+      const cartItem = cartItems[item];
+      if (cartItem.quantity > 0) {
+        const itemInfo = food_list.find(
+          (product) => product._id === Number(item)
+        );
+        if (itemInfo) {
+          totalAmount += itemInfo.price * cartItem.quantity;
+        }
+      }
+    }
+    return totalAmount;
+  };
+
   // Save cartItems to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -118,6 +137,9 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     }
   }, [cartItems]);
 
+  useEffect(() => {
+    console.log(cartItems);
+  }, [cartItems]);
   const contextValue: StoreContextType = {
     food_list,
     cartItems,
@@ -126,6 +148,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     removeFromCart,
     visible,
     setVisible,
+    getTotalCartAmount,
   };
 
   return (

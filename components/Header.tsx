@@ -13,6 +13,7 @@ import { RxAvatar } from "react-icons/rx";
 
 const Header = () => {
   const { setVisible, visible } = useStoreContext();
+  const { getTotalCartAmount } = useStoreContext();
   return (
     <header className="py-8  lg:mx-20 sm:mx-10 mx-5">
       <div className=" flex justify-between items-center">
@@ -31,19 +32,20 @@ const Header = () => {
         </div>
         <div className="flex items-center">
           <div className="flex md:gap-7 gap-3 relative justify-center items-center">
-            <div className="h-3 w-3 rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16  " />
+            <div
+              className={`${
+                getTotalCartAmount() === 0 ? "hidden" : "block"
+              } h-3 w-3 rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16 `}
+            />
 
             <CiSearch className="md:text-4xl text-2xl cursor-pointer " />
             <Link href={"/cart"}>
               <FaShoppingBasket className="md:text-4xl text-2xl cursor-pointer " />
             </Link>
-            {/* <Button
+            <RxAvatar
+              className=" cursor-pointer md:text-4xl text-2xl mr-3"
               onClick={() => setVisible(true)}
-              className="hidden lg:block bg-white rounded-3xl p-4 border border-black hover:bg-gray-100 transitio dur ease-in-out"
-            >
-              Sign in{" "}
-            </Button> */}
-            <RxAvatar className=" cursor-pointer md:text-4xl text-2xl mr-3"  onClick={() => setVisible(true)} />
+            />
           </div>
           <div className="xl:hidden">
             <MobileNav />
