@@ -4,6 +4,8 @@ import { Rating } from "primereact/rating";
 import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
+
+
 interface FoodItemProps {
   id: number;
   name: string;

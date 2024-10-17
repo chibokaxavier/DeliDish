@@ -7,6 +7,7 @@ import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import { StoreContextProvider } from "@/context/StoreContext";
 import Footer from "@/components/Footer";
 import SignupModal from "@/components/SignupModal";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],

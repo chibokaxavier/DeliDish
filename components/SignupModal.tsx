@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useStoreContext } from "@/context/StoreContext";
@@ -18,15 +18,75 @@ import {
   Input,
   Spinner,
 } from "@nextui-org/react";
+import axios from "axios";
+import { Toast } from "primereact/toast";
 
 const SignupModal = () => {
+  const toast = useRef<Toast>(null);
   const { setVisible, visible } = useStoreContext();
   const [value, setValue] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
   const [auth, setAuth] = useState("login");
+  const url = "http://localhost:4000";
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInput = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData({ ...formData, [name]: value });
+  };
+  const showSuccess = (message: string) => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Success",
+      detail: message,
+      life: 3000,
+    });
+  };
+  const showError = (message: string) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail: message,
+      life: 5000,
+    });
+  };
+
+  const onSubmitSignup = async (e: any) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${url}/api/user/register`, formData);
+      if (res.data.success) {
+        showSuccess(res.data.message);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+        });
+        setAuth("login");
+      } else {
+        showError(res.data.message);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        // Display error message from backend if available
+        showError(error.response.data.message);
+        console.log(error.response.data.message, "testing backedn");
+      } else {
+        // Fallback for network errors or other unexpected issues
+        showError("An unexpected error occurred.");
+      }
+      console.log(error);
+    }
+  };
 
   return (
     <div className="card flex justify-content-center">
+      <Toast ref={toast} />
       <Modal
         isOpen={visible}
         size={"xs"}
@@ -36,7 +96,7 @@ const SignupModal = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              {auth === "login" && (
+              {auth === "login"  && (
                 <>
                   <ModalHeader className="flex flex-col gap-1 text-xl font-bold">
                     Log in
@@ -93,8 +153,11 @@ const SignupModal = () => {
                       </div>
                     </form>
                     <p className="text-sm mb-5">
-                     Create a new account ? {" "}
-                      <span onClick={()=>setAuth('signup') } className="text-blue-600 cursor-pointer">
+                      Create a new account ?{" "}
+                      <span
+                        onClick={() => setAuth("signup")}
+                        className="text-blue-600 cursor-pointer"
+                      >
                         {" "}
                         Click here
                       </span>
@@ -108,7 +171,7 @@ const SignupModal = () => {
                     Sign Up
                   </ModalHeader>
                   <ModalBody>
-                    <form className="py-2">
+                    <form className="py-2" onSubmit={onSubmitSignup}>
                       <Input
                         type="text"
                         label="Your Name"
@@ -116,6 +179,8 @@ const SignupModal = () => {
                         placeholder="John Doe"
                         errorMessage="Please enter a valid name"
                         className="mb-10"
+                        value={formData.name}
+                        onChange={handleInput}
                         isRequired
                         required
                         classNames={{
@@ -132,13 +197,15 @@ const SignupModal = () => {
                         placeholder="Johndoe@gmail.com"
                         errorMessage="Please enter a valid email"
                         className="mb-10"
+                        value={formData.email}
+                        onChange={handleInput}
                         isRequired
                         required
                         classNames={{
                           inputWrapper:
                             "bg-white border-2 focus-within:border-primary-100",
                         }}
-                        name="name"
+                        name="email"
                       />
                       <Input
                         type="password"
@@ -148,12 +215,14 @@ const SignupModal = () => {
                         errorMessage="Please enter a valid password"
                         className="mb-3"
                         isRequired
+                        value={formData.password}
+                        onChange={handleInput}
                         required
                         classNames={{
                           inputWrapper:
                             "bg-white border-2 focus-within:border-primary-100",
                         }}
-                        name="name"
+                        name="password"
                       />
 
                       <button
@@ -176,7 +245,10 @@ const SignupModal = () => {
                     </form>
                     <p className="text-sm mb-5">
                       Have an account?{" "}
-                      <span onClick={()=>setAuth('login') } className="text-blue-600 cursor-pointer">
+                      <span
+                        onClick={() => setAuth("login")}
+                        className="text-blue-600 cursor-pointer"
+                      >
                         {" "}
                         Login here
                       </span>
