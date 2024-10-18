@@ -1,19 +1,35 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Nav from "@/components/Nav";
 import { Button } from "@nextui-org/react";
-
+import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import MobileNav from "./MobileNav";
 import { GiFoodTruck } from "react-icons/gi";
-import { CiSearch } from "react-icons/ci";
+import { CiLogout, CiSearch } from "react-icons/ci";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useStoreContext } from "@/context/StoreContext";
 import { RxAvatar } from "react-icons/rx";
+import { FaBagShopping } from "react-icons/fa6";
 
 const Header = () => {
-  const { setVisible, visible } = useStoreContext();
+  const { setVisible, visible, token, userEmail, setToken, setUserEmail } =
+    useStoreContext();
   const { getTotalCartAmount, cartItems } = useStoreContext();
+  const [isPopoverOpen, setPopoverOpen] = useState(false);
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    setToken(null);
+    setUserEmail(null);
+    setPopoverOpen(false);
+  };
+  const handleLogin = () => {
+    // Ensure popover does not automatically open after login
+    setPopoverOpen(false);
+    setVisible(true);
+  };
   return (
     <header className="py-8  lg:mx-20 sm:mx-10 mx-5">
       <div className=" flex justify-between items-center">
@@ -44,12 +60,44 @@ const Header = () => {
             <Link href={"/cart"}>
               <FaShoppingBasket className="md:text-4xl text-2xl cursor-pointer " />
             </Link>
-            <RxAvatar
-              className=" cursor-pointer md:text-4xl text-2xl mr-3"
-              onClick={() => setVisible(true)}
-            />
+            {token ? (
+              <Popover
+                showArrow
+                backdrop="opaque"
+                offset={14}
+                isOpen={isPopoverOpen}
+                onOpenChange={setPopoverOpen}
+              >
+                <PopoverTrigger>
+                  <button>
+                    <p className="size-10 flex justify-center items-center cursor-pointer rounded-full bg-rose-600 text-white">
+                      {userEmail?.charAt(0)}
+                    </p>
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="py-4">
+                  <div className="p-2 bg-white flex flex-col gap-5">
+                    <div className="flex gap-3 text-lg justify-center items-center cursor-pointer">
+                      <FaBagShopping className="" /> <p>Orders</p>
+                    </div>
+                    <hr className="text-black border border-black" />
+                    <div
+                      className="flex gap-3 text-lg justify-center items-center cursor-pointer"
+                      onClick={logOut}
+                    >
+                      <CiLogout /> <p>Log Out</p>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <RxAvatar
+                className=" cursor-pointer md:text-4xl text-2xl mr-3"
+                onClick={handleLogin}
+              />
+            )}
           </div>
-          <div className="xl:hidden">
+          <div className="xl:hidden ml-3">
             <MobileNav />
           </div>
         </div>

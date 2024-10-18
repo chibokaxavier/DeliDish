@@ -42,6 +42,8 @@ interface StoreContextType {
   getTotalCartAmount: () => number;
   token: string | null;
   userEmail: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
+  setUserEmail: Dispatch<SetStateAction<string | null>>;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
@@ -163,7 +165,9 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     removeFromCart,
     visible,
     token,
+    setToken,
     userEmail,
+    setUserEmail,
     setVisible,
     getTotalCartAmount,
   };

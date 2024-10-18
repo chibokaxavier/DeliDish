@@ -23,7 +23,7 @@ import { Toast } from "primereact/toast";
 
 const SignupModal = () => {
   const toast = useRef<Toast>(null);
-  const { setVisible, visible } = useStoreContext();
+  const { setVisible, visible, setToken, setUserEmail } = useStoreContext();
   const [value, setValue] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
   const [auth, setAuth] = useState("login");
@@ -100,6 +100,8 @@ const SignupModal = () => {
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userEmail", res.data.validUser.email);
+        setToken(res.data.token);
+        setUserEmail(res.data.validUser.email);
         showSuccess(res.data.message);
         setFormData2({
           email: "",
