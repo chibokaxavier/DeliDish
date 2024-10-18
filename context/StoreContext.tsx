@@ -44,11 +44,13 @@ interface StoreContextType {
   userEmail: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
   setUserEmail: Dispatch<SetStateAction<string | null>>;
+  loading: boolean;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
+  const [loading, setLoading] = useState(true);
   // Load initial cartItems from localStorage if available
   const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(
     () => {
@@ -155,13 +157,14 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   }, [cartItems]);
 
   useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+    setLoading(false); // Simulate delay for loading data
+  }, []);
   const contextValue: StoreContextType = {
     food_list,
     cartItems,
     setCartItems,
     addToCart,
+    loading,
     removeFromCart,
     visible,
     token,
