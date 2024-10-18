@@ -40,6 +40,8 @@ interface StoreContextType {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   getTotalCartAmount: () => number;
+  token: string | null;
+  userEmail: string | null;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
@@ -56,6 +58,19 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     }
   );
 
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("token");
+    }
+    return null;
+  });
+
+  const [userEmail, setUserEmail] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userEmail");
+    }
+    return null;
+  });
   const [visible, setVisible] = useState(false);
 
   const addToCart = (itemId: number) => {
@@ -147,6 +162,8 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     addToCart,
     removeFromCart,
     visible,
+    token,
+    userEmail,
     setVisible,
     getTotalCartAmount,
   };

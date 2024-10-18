@@ -33,11 +33,20 @@ const SignupModal = () => {
     email: "",
     password: "",
   });
+  const [formData2, setFormData2] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleInput = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData({ ...formData, [name]: value });
+  };
+  const handleInput2 = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData2({ ...formData2, [name]: value });
   };
   const showSuccess = (message: string) => {
     toast.current?.show({
@@ -72,6 +81,35 @@ const SignupModal = () => {
         showError(res.data.message);
       }
     } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        // Display error message from backend if available
+        showError(error.response.data.message);
+        console.log(error.response.data.message);
+      } else {
+        // Fallback for network errors or other unexpected issues
+        showError("An unexpected error occurred.");
+      }
+      console.log(error);
+    }
+  };
+  const onSubmitLogin = async (e: any) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${url}/api/user/login`, formData2);
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userEmail", res.data.validUser.email);
+        showSuccess(res.data.message);
+        setFormData2({
+          email: "",
+          password: "",
+        });
+        setVisible(false);
+      } else {
+        showError(res.data.message);
+      }
+    } catch (error: any) {
       if (error.response && error.response.data) {
         // Display error message from backend if available
         showError(error.response.data.message);
@@ -96,13 +134,13 @@ const SignupModal = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              {auth === "login"  && (
+              {auth === "login" && (
                 <>
                   <ModalHeader className="flex flex-col gap-1 text-xl font-bold">
                     Log in
                   </ModalHeader>
                   <ModalBody>
-                    <form className="py-2">
+                    <form className="py-2" onSubmit={onSubmitLogin}>
                       <Input
                         type="email"
                         label="Your Email Address"
@@ -111,12 +149,14 @@ const SignupModal = () => {
                         errorMessage="Please enter a valid email"
                         className="mb-10"
                         isRequired
+                        value={formData2.email}
+                        onChange={handleInput2}
                         required
                         classNames={{
                           inputWrapper:
                             "bg-white border-2 focus-within:border-primary-100",
                         }}
-                        name="name"
+                        name="email"
                       />
                       <Input
                         type="password"
@@ -127,11 +167,13 @@ const SignupModal = () => {
                         className="mb-3"
                         isRequired
                         required
+                        value={formData2.password}
+                        onChange={handleInput2}
                         classNames={{
                           inputWrapper:
                             "bg-white border-2 focus-within:border-primary-100",
                         }}
-                        name="name"
+                        name="password"
                       />
 
                       <button
