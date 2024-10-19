@@ -86,34 +86,34 @@ export const assets = {
 
 export const menu_list = [
   {
-    menu_name: "Salad",
+    menu_name: "salad",
     menu_image: "/menu_1.png",
   },
   {
-    menu_name: "Rolls",
+    menu_name: "rolls",
     menu_image: "/menu_2.png",
   },
   {
-    menu_name: "Deserts",
+    menu_name: "deserts",
     menu_image: "/menu_3.png",
   },
   {
-    menu_name: "Sandwich",
+    menu_name: "sandwich",
     menu_image: "/menu_4.png",
   },
   {
-    menu_name: "Cake",
+    menu_name: "cake",
     menu_image: "/menu_5.png",
   },
   {
-    menu_name: "Pure Veg",
+    menu_name: "pure Veg",
     menu_image: "/menu_6.png",
   },
   {
-    menu_name: "Pasta",
+    menu_name: "pasta",
     menu_image: "/menu_7.png",
   }, {
-    menu_name: "Noodles",
+    menu_name: "noodles",
     menu_image: "/menu_8.png",
   },
 ];

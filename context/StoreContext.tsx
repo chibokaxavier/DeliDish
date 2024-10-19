@@ -1,5 +1,5 @@
 "use client";
-import { food_list } from "@/public/assets";
+import axios from "axios";
 import {
   createContext,
   Dispatch,
@@ -51,6 +51,7 @@ export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
   const [loading, setLoading] = useState(true);
+  const [food_list, setFoodList] = useState<FoodItem[]>([]);
   // Load initial cartItems from localStorage if available
   const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(
     () => {
@@ -133,6 +134,8 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     });
   };
 
+  const url = "http://localhost:4000";
+
   const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
@@ -148,6 +151,13 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     }
     return totalAmount;
   };
+  const fetchFood = async () => {
+    const res = await axios.get(`${url}/api/food/list`);
+    if (res.data.success) {
+      setFoodList(res.data.data);
+    } else {
+    }
+  };
 
   // Save cartItems to localStorage whenever it changes
   useEffect(() => {
@@ -157,7 +167,8 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   }, [cartItems]);
 
   useEffect(() => {
-    setLoading(false); 
+    setLoading(false);
+    fetchFood();
   }, []);
   const contextValue: StoreContextType = {
     food_list,

@@ -37,7 +37,7 @@ const ExploreMenu = ({ category, setCategory }: CategoryProps) => {
                 } w-[150px] h-[150px] object-cover`}
                 alt={item.menu_name}
               />
-              <p className="mt-2 text-center text-gray-600 text-base">
+              <p className="mt-2 text-center capitalize text-gray-600 text-base">
                 {item.menu_name}
               </p>
             </div>
