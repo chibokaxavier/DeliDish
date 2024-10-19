@@ -15,7 +15,7 @@ interface ProviderProps {
 }
 
 interface FoodItem {
-  _id: number;
+  _id: string;
   name: string;
   image: string;
   price: number;
@@ -24,7 +24,7 @@ interface FoodItem {
 }
 
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
@@ -33,10 +33,10 @@ interface CartItem {
 // Define the structure of your store context
 interface StoreContextType {
   food_list: FoodItem[];
-  cartItems: { [key: number]: CartItem }; // Cart items are now full CartItem objects
-  setCartItems: Dispatch<SetStateAction<{ [key: number]: CartItem }>>;
-  addToCart: (itemId: number) => void;
-  removeFromCart: (itemId: number) => void;
+  cartItems: { [key: string]: CartItem }; // Cart items are now full CartItem objects
+  setCartItems: Dispatch<SetStateAction<{ [key: string]: CartItem }>>;
+  addToCart: (itemId: string) => void;
+  removeFromCart: (itemId: string) => void;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   getTotalCartAmount: () => number;
@@ -53,7 +53,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   const [loading, setLoading] = useState(true);
   const [food_list, setFoodList] = useState<FoodItem[]>([]);
   // Load initial cartItems from localStorage if available
-  const [cartItems, setCartItems] = useState<{ [key: number]: CartItem }>(
+  const [cartItems, setCartItems] = useState<{ [key: string]: CartItem }>(
     () => {
       if (typeof window !== "undefined") {
         const storedCart = localStorage.getItem("cartItems");
@@ -78,7 +78,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   });
   const [visible, setVisible] = useState(false);
 
-  const addToCart = (itemId: number) => {
+  const addToCart = (itemId: string) => {
     const item = food_list.find((food) => food._id === itemId);
     if (!item) {
       console.error(`Item with id ${itemId} not found`);
@@ -112,7 +112,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     });
   };
 
-  const removeFromCart = (itemId: number) => {
+  const removeFromCart = (itemId: string) => {
     setCartItems((prev) => {
       const existingItem = prev[itemId];
 
@@ -138,12 +138,10 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-    for (const item in cartItems) {
-      const cartItem = cartItems[item];
+    for (const itemId in cartItems) {
+      const cartItem = cartItems[itemId];
       if (cartItem.quantity > 0) {
-        const itemInfo = food_list.find(
-          (product) => product._id === Number(item)
-        );
+        const itemInfo = food_list.find((product) => product._id === itemId);
         if (itemInfo) {
           totalAmount += itemInfo.price * cartItem.quantity;
         }

@@ -7,7 +7,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 
 interface FoodItemProps {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
