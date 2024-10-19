@@ -157,7 +157,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   }, [cartItems]);
 
   useEffect(() => {
-    setLoading(false); // Simulate delay for loading data
+    setLoading(false); 
   }, []);
   const contextValue: StoreContextType = {
     food_list,
