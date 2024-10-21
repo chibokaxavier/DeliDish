@@ -120,7 +120,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     }
   };
 
-  const removeFromCart = (itemId: string) => {
+  const removeFromCart = async (itemId: string) => {
     setCartItems((prev) => {
       const existingItem = prev[itemId];
 
@@ -140,6 +140,13 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
         return updatedCart;
       }
     });
+    if (token) {
+      await axios.post(
+        `${url}/api/cart/remove`,
+        { itemId },
+        { headers: { token } }
+      );
+    }
   };
 
   const getTotalCartAmount = () => {
