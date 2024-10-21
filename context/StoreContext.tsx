@@ -96,76 +96,105 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     }
   };
   const addToCart = async (itemId: string) => {
-    // const item = food_list.find((food) => food._id === itemId);
-    // if (!item) {
-    //   console.error(`Item with id ${itemId} not found`);
-    //   return;
-    // }
-
-    // setCartItems((prev) => {
-    //   const existingItem = prev[item._id];
-
-    //   if (existingItem) {
-    //     // Update quantity if item already exists
-    //     return {
-    //       ...prev,
-    //       [item._id]: {
-    //         ...existingItem,
-    //         quantity: existingItem.quantity + 1,
-    //       },
-    //     };
-    //   } else {
-    //     // Add new item to cart
-    //     return {
-    //       ...prev,
-    //       [item._id]: {
-    //         id: item._id,
-    //         name: item.name,
-    //         price: item.price,
-    //         quantity: 1, // Set initial quantity to 1
-    //       },
-    //     };
-    //   }
-    // });
-    if (token) {
-      const res = await axios.post(
-        `${url}/api/cart/add`,
-        { itemId },
-        { headers: { token } }
-      );
-      showSuccess("Item added to cart")
-      fetchCartData();
+    const item = food_list.find((food) => food._id === itemId);
+    if (!item) {
+      console.error(`Item with id ${itemId} not found`);
+      return;
+    }
+  
+    // Optimistically update the UI
+    setCartItems((prev) => {
+      const existingItem = prev[item._id];
+  
+      return {
+        ...prev,
+        [item._id]: {
+          id: item._id,
+          name: item.name,
+          price: item.price,
+          quantity: existingItem ? existingItem.quantity + 1 : 1, // Update quantity or add new item
+        },
+      };
+    });
+  
+    // Perform the API call
+    try {
+      if (token) {
+        const res = await axios.post(
+          `${url}/api/cart/add`,
+          { itemId },
+          { headers: { token } }
+        );
+        if (res.data.success) {
+          showSuccess("Item added to cart");
+        } else {
+          throw new Error("Failed to add to cart");
+        }
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+  
+      // Revert optimistic update if the API call fails
+      setCartItems((prev) => {
+        const existingItem = prev[item._id];
+        if (existingItem && existingItem.quantity > 1) {
+          return {
+            ...prev,
+            [item._id]: { ...existingItem, quantity: existingItem.quantity - 1 },
+          };
+        } else {
+          const updatedCart = { ...prev };
+          delete updatedCart[item._id];
+          return updatedCart;
+        }
+      });
     }
   };
+  
+  
 
   const removeFromCart = async (itemId: string) => {
-    // setCartItems((prev) => {
-    //   const existingItem = prev[itemId];
-
-    //   if (existingItem && existingItem.quantity > 1) {
-    //     // Decrease quantity if it's more than 1
-    //     return {
-    //       ...prev,
-    //       [itemId]: {
-    //         ...existingItem,
-    //         quantity: existingItem.quantity - 1,
-    //       },
-    //     };
-    //   } else {
-    //     // Remove item if quantity becomes 0
-    //     const updatedCart = { ...prev };
-    //     delete updatedCart[itemId];
-    //     return updatedCart;
-    //   }
-    // });
-    if (token) {
-      await axios.post(
-        `${url}/api/cart/remove`,
-        { itemId },
-        { headers: { token } }
-      );
-      showSuccess("Item removed from cart");
-      fetchCartData();
+    const existingItem = cartItems[itemId];
+    if (!existingItem) return;
+  
+    // Optimistically update the UI
+    setCartItems((prev) => {
+      if (existingItem.quantity > 1) {
+        return {
+          ...prev,
+          [itemId]: { ...existingItem, quantity: existingItem.quantity - 1 },
+        };
+      } else {
+        const updatedCart = { ...prev };
+        delete updatedCart[itemId];
+        return updatedCart;
+      }
+    });
+  
+    // Perform the API call
+    try {
+      if (token) {
+        const res = await axios.post(
+          `${url}/api/cart/remove`,
+          { itemId },
+          { headers: { token } }
+        );
+        if (res.data.success) {
+          showSuccess("Item removed from cart");
+        } else {
+          throw new Error("Failed to remove from cart");
+        }
+      }
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+  
+      // Revert optimistic update if the API call fails
+      setCartItems((prev) => {
+        return {
+          ...prev,
+          [itemId]: { ...existingItem, quantity: existingItem.quantity + 1 },
+        };
+      });
     }
   };
 
