@@ -50,6 +50,7 @@ interface StoreContextType {
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
+  const url = "http://localhost:4000";
   const [loading, setLoading] = useState(true);
   const [food_list, setFoodList] = useState<FoodItem[]>([]);
   // Load initial cartItems from localStorage if available
@@ -78,7 +79,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   });
   const [visible, setVisible] = useState(false);
 
-  const addToCart = (itemId: string) => {
+  const addToCart = async (itemId: string) => {
     const item = food_list.find((food) => food._id === itemId);
     if (!item) {
       console.error(`Item with id ${itemId} not found`);
@@ -110,6 +111,13 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
         };
       }
     });
+    if (token) {
+      await axios.post(
+        `${url}/api/cart/add`,
+        { itemId },
+        { headers: { token } }
+      );
+    }
   };
 
   const removeFromCart = (itemId: string) => {
@@ -133,8 +141,6 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       }
     });
   };
-
-  const url = "http://localhost:4000";
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
