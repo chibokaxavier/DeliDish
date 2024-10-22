@@ -16,7 +16,7 @@ interface FoodItemProps {
 
 const FoodItem = ({ id, name, price, description, image }: FoodItemProps) => {
   const [value, setValue] = useState<number | undefined>(0);
-  const { cartItems, addToCart, removeFromCart } = useStoreContext();
+  const { cartItems, addToCart, removeFromCart,foodLoading } = useStoreContext();
 
   // Set count based on cartItems
   const count = cartItems[id]?.quantity || 0;

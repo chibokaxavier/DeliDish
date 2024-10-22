@@ -47,6 +47,8 @@ interface StoreContextType {
   setToken: Dispatch<SetStateAction<string | null>>;
   setUserEmail: Dispatch<SetStateAction<string | null>>;
   loading: boolean;
+  foodLoading: boolean;
+  setFoodLoading: Dispatch<SetStateAction<boolean>>;
   count: number | null;
   setCount: Dispatch<SetStateAction<number | null>>;
 }
@@ -57,6 +59,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   const url = "http://localhost:4000";
   const [count, setCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [foodLoading, setFoodLoading] = useState(false);
   const [food_list, setFoodList] = useState<FoodItem[]>([]);
   // Load initial cartItems from localStorage if available
   const [cartItems, setCartItems] = useState<{ [key: string]: CartItem }>(
@@ -68,7 +71,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       return {};
     }
   );
-  const toast = useRef<Toast>(null); 
+  const toast = useRef<Toast>(null);
 
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
@@ -87,25 +90,76 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
 
   const fetchCartData = async () => {
     if (token) {
-      const res = await axios.get(`${url}/api/cart/get`, {
-        headers: { token },
-      });
-      if (res.data.success) {
-        setCartItems(res.data.data);
+      try {
+        const res = await axios.get(`${url}/api/cart/get`, {
+          headers: { token },
+        });
+        if (res.data.success) {
+          const backendCart = res.data.data;
+          
+          // Create a new cart to hold merged items
+          const mergedCart: { [key: string]: CartItem } = {};
+  
+          // Start with items from the backend
+          for (const itemId in backendCart) {
+            mergedCart[itemId] = { ...backendCart[itemId] }; // Copy backend item
+          }
+  
+          // Add items from local storage, summing quantities if they exist in the backend
+          for (const itemId in cartItems) {
+            if (mergedCart[itemId]) {
+              // If the item exists in both, sum the quantities
+              mergedCart[itemId].quantity += cartItems[itemId].quantity;
+            } else {
+              // If it's only in local, add it to the merged cart
+              mergedCart[itemId] = cartItems[itemId];
+            }
+          }
+  
+          // Sync merged cart back to the backend
+          await syncCartToBackend(mergedCart);
+  
+          // Update state with the merged cart
+          setCartItems(mergedCart);
+        }
+      } catch (error) {
+        console.error("Error fetching cart data from backend:", error);
       }
     }
   };
+  
+  
+  // Sync the merged cart back to the backend
+  const syncCartToBackend = async (mergedCart: { [key: string]: CartItem }) => {
+    try {
+      if (token) {
+        const res = await axios.post(
+          `${url}/api/cart/sync`,
+          { cartItems: mergedCart },
+          { headers: { token } }
+        );
+        if (!res.data.success) {
+          throw new Error("Failed to sync cart");
+        }
+      }
+    } catch (error) {
+      console.error("Error syncing cart with backend:", error);
+    }
+  };
+  
+  
+  
   const addToCart = async (itemId: string) => {
     const item = food_list.find((food) => food._id === itemId);
     if (!item) {
       console.error(`Item with id ${itemId} not found`);
       return;
     }
-  
+
     // Optimistically update the UI
     setCartItems((prev) => {
       const existingItem = prev[item._id];
-  
+
       return {
         ...prev,
         [item._id]: {
@@ -116,7 +170,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
         },
       };
     });
-  
+
     // Perform the API call
     try {
       if (token) {
@@ -133,14 +187,17 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-  
+
       // Revert optimistic update if the API call fails
       setCartItems((prev) => {
         const existingItem = prev[item._id];
         if (existingItem && existingItem.quantity > 1) {
           return {
             ...prev,
-            [item._id]: { ...existingItem, quantity: existingItem.quantity - 1 },
+            [item._id]: {
+              ...existingItem,
+              quantity: existingItem.quantity - 1,
+            },
           };
         } else {
           const updatedCart = { ...prev };
@@ -150,13 +207,11 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       });
     }
   };
-  
-  
 
   const removeFromCart = async (itemId: string) => {
     const existingItem = cartItems[itemId];
     if (!existingItem) return;
-  
+
     // Optimistically update the UI
     setCartItems((prev) => {
       if (existingItem.quantity > 1) {
@@ -170,7 +225,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
         return updatedCart;
       }
     });
-  
+
     // Perform the API call
     try {
       if (token) {
@@ -187,7 +242,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       }
     } catch (error) {
       console.error("Error removing from cart:", error);
-  
+
       // Revert optimistic update if the API call fails
       setCartItems((prev) => {
         return {
@@ -212,21 +267,15 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     return totalAmount;
   };
   const fetchFood = async () => {
+    setFoodLoading(true);
     const res = await axios.get(`${url}/api/food/list`);
     if (res.data.success) {
       setFoodList(res.data.data);
-    } else {
+      setFoodLoading(false);
     }
   };
-  // const fetchCartData = async () => {
-  //   const res = await axios.get(`${url}/api/cart/get`);
-  //   if (res.data.success) {
-  //     setCartItems(res.data.data);
-  //   } else {
-  //   }
-  // };
 
-  const showSuccess = (message:any) => {
+  const showSuccess = (message: any) => {
     toast.current?.show({
       severity: "success",
       summary: "Success",
@@ -255,6 +304,8 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     setCartItems,
     addToCart,
     loading,
+    setFoodLoading,
+    foodLoading,
     removeFromCart,
     visible,
     token,
