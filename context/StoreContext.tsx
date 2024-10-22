@@ -96,15 +96,15 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
         });
         if (res.data.success) {
           const backendCart = res.data.data;
-          
+
           // Create a new cart to hold merged items
           const mergedCart: { [key: string]: CartItem } = {};
-  
+
           // Start with items from the backend
           for (const itemId in backendCart) {
             mergedCart[itemId] = { ...backendCart[itemId] }; // Copy backend item
           }
-  
+
           // Add items from local storage, summing quantities if they exist in the backend
           for (const itemId in cartItems) {
             if (mergedCart[itemId]) {
@@ -115,10 +115,10 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
               mergedCart[itemId] = cartItems[itemId];
             }
           }
-  
+
           // Sync merged cart back to the backend
           await syncCartToBackend(mergedCart);
-  
+
           // Update state with the merged cart
           setCartItems(mergedCart);
         }
@@ -127,8 +127,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       }
     }
   };
-  
-  
+
   // Sync the merged cart back to the backend
   const syncCartToBackend = async (mergedCart: { [key: string]: CartItem }) => {
     try {
@@ -146,9 +145,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       console.error("Error syncing cart with backend:", error);
     }
   };
-  
-  
-  
+
   const addToCart = async (itemId: string) => {
     const item = food_list.find((food) => food._id === itemId);
     if (!item) {
@@ -235,7 +232,7 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
           { headers: { token } }
         );
         if (res.data.success) {
-          showSuccess("Item removed from cart");
+          showError("Item removed from cart");
         } else {
           throw new Error("Failed to remove from cart");
         }
@@ -282,6 +279,13 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       detail: message,
       life: 3000,
     });
+  };const showError = (message: any) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Success",
+      detail: message,
+      life: 3000,
+    });
   };
 
   // Save cartItems to localStorage whenever it changes
@@ -296,6 +300,9 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     fetchFood();
     fetchCartData();
   }, []);
+  useEffect(() => {
+    fetchCartData();
+  }, [token]);
   const contextValue: StoreContextType = {
     food_list,
     count,
