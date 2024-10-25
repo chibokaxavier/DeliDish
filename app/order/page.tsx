@@ -3,9 +3,8 @@ import { useStoreContext } from "@/context/StoreContext";
 import { Input } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 const page = () => {
-  const { getTotalCartAmount } = useStoreContext();
+  const { getTotalCartAmount, cartItems, food_list, token } = useStoreContext();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,11 +22,23 @@ const page = () => {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
+
+  const placeOrder = async (e: any) => {
+    e.preventDefault();
+    let orderItems = [];
+    food_list.map((item) => {
+      if (cartItems[item._id]?.quantity > 0) {
+        const itemInfo = { ...item, quantity: cartItems[item._id].quantity };
+        orderItems.push(itemInfo);
+      }
+    });
+    console.log(orderItems)
+  };
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
         <div className="lg:w-[40%]">
-          <form action="">
+          <form action="" onSubmit={placeOrder}>
             <div className="flex gap-2">
               <Input
                 type="text"
@@ -176,11 +187,11 @@ const page = () => {
             <p className="font-bold">Total</p>
             <p>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
           </div>
-          <Link href={"/order"}>
-            <button className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg">
-              Proceed to Checkout
+    
+            <button className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg" onClick={(e)=>placeOrder(e)}>
+              Proceed to Payment
             </button>
-          </Link>
+        
         </div>
       </div>
     </div>
