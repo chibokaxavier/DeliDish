@@ -90,32 +90,29 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
   const [visible, setVisible] = useState(false);
 
   const fetchCartData = async () => {
-    console.log('test code');
-    
     if (token) {
       try {
         const res = await axios.get(`${url}/api/cart/get`, {
           headers: { token },
         });
         if (res.data.success) {
-          console.log('test');
           const backendCart = res.data.data;
-  
+
           // Create a new cart to hold merged items
           const mergedCart: { [key: string]: CartItem } = {};
-  
+
           // Start with items from the backend
           for (const itemId in backendCart) {
             mergedCart[itemId] = { ...backendCart[itemId] }; // Copy backend item
           }
-  
+
           // Add items from local storage, summing quantities if they exist in the backend
           for (const itemId in cartItems) {
             if (mergedCart[itemId]) {
               // If the item exists in both, check quantities
               const backendQuantity = mergedCart[itemId].quantity;
               const localQuantity = cartItems[itemId].quantity;
-  
+
               // Only sum quantities if they are different
               if (backendQuantity !== localQuantity) {
                 mergedCart[itemId].quantity += localQuantity;
@@ -125,10 +122,10 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
               mergedCart[itemId] = cartItems[itemId];
             }
           }
-  
+
           // Sync merged cart back to the backend
           await syncCartToBackend(mergedCart);
-  
+
           // Update state with the merged cart
           setCartItems(mergedCart);
         }
@@ -137,7 +134,6 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
       }
     }
   };
-  
 
   // Sync the merged cart back to the backend
   const syncCartToBackend = async (mergedCart: { [key: string]: CartItem }) => {

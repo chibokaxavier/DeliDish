@@ -25,14 +25,14 @@ const page = () => {
 
   const placeOrder = async (e: any) => {
     e.preventDefault();
-    let orderItems = [];
+    let orderItems: any[] = [];
     food_list.map((item) => {
       if (cartItems[item._id]?.quantity > 0) {
         const itemInfo = { ...item, quantity: cartItems[item._id].quantity };
         orderItems.push(itemInfo);
       }
     });
-    console.log(orderItems)
+    console.log(orderItems);
   };
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
@@ -187,11 +187,12 @@ const page = () => {
             <p className="font-bold">Total</p>
             <p>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
           </div>
-    
-            <button className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg" onClick={(e)=>placeOrder(e)}>
-              Proceed to Payment
-            </button>
-        
+          <button
+            className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg"
+            onClick={(e) => placeOrder(e)}
+          >
+            Proceed to Payment
+          </button>
         </div>
       </div>
     </div>
