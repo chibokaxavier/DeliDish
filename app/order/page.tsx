@@ -2,16 +2,27 @@
 import { useStoreContext } from "@/context/StoreContext";
 import { Input } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 const page = () => {
-  const {
-    food_list,
-    cartItems,
-    removeFromCart,
-    addToCart,
-    getTotalCartAmount,
-  } = useStoreContext();
+  const { getTotalCartAmount } = useStoreContext();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    phone: "",
+  });
+  const onChangeHandler = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData({ ...formData, [name]: value });
+  };
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -25,13 +36,15 @@ const page = () => {
                 placeholder="John "
                 errorMessage="Please enter a valid name"
                 className="mb-3"
+                onChange={onChangeHandler}
+                value={formData.firstName}
                 isRequired
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="firstName"
               />
 
               <Input
@@ -42,12 +55,14 @@ const page = () => {
                 errorMessage="Please enter a valid email"
                 className="mb-3"
                 isRequired
+                onChange={onChangeHandler}
+                value={formData.lastName}
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="lastName"
               />
             </div>
             <div>
@@ -59,12 +74,14 @@ const page = () => {
                 errorMessage="Please enter a valid email"
                 className="mb-10"
                 isRequired
+                onChange={onChangeHandler}
+                value={formData.email}
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="email"
               />
             </div>
             <div>
@@ -75,13 +92,15 @@ const page = () => {
                 placeholder="404, Willimon street"
                 errorMessage="Please enter a valid address"
                 className="mb-3"
+                onChange={onChangeHandler}
+                value={formData.address}
                 isRequired
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="address"
               />
             </div>
             <div className="flex gap-2">
@@ -93,12 +112,14 @@ const page = () => {
                 errorMessage="Please enter a valid city"
                 className="mb-3"
                 isRequired
+                onChange={onChangeHandler}
+                value={formData.city}
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="city"
               />
 
               <Input
@@ -108,13 +129,15 @@ const page = () => {
                 placeholder="Lagos"
                 errorMessage="Please enter a valid State"
                 className="mb-3"
+                onChange={onChangeHandler}
+                value={formData.state}
                 isRequired
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="state"
               />
             </div>
             <div>
@@ -125,13 +148,15 @@ const page = () => {
                 placeholder="+234 900 7885 3844"
                 errorMessage="Please enter a valid address"
                 className="mb-3"
+                onChange={onChangeHandler}
+                value={formData.phone}
                 isRequired
                 required
                 classNames={{
                   inputWrapper:
                     "bg-white border-2 focus-within:border-primary-100",
                 }}
-                name="name"
+                name="phone"
               />
             </div>
           </form>
