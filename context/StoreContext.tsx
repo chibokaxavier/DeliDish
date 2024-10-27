@@ -163,7 +163,6 @@ export const StoreContextProvider = ({ children }: ProviderProps) => {
     // Optimistically update the UI
     setCartItems((prev) => {
       const existingItem = prev[item._id];
-
       return {
         ...prev,
         [item._id]: {

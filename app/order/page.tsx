@@ -1,9 +1,12 @@
 "use client";
 import { useStoreContext } from "@/context/StoreContext";
 import { Input } from "@nextui-org/react";
+import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+
 const page = () => {
+  const url = "http://localhost:4000";
   const { getTotalCartAmount, cartItems, food_list, token } = useStoreContext();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -32,7 +35,22 @@ const page = () => {
         orderItems.push(itemInfo);
       }
     });
-    console.log(orderItems);
+    let orderData = {
+      address: formData.address,
+      items: orderItems,
+      amount: getTotalCartAmount() + 2,
+    };
+    let res = await axios.post(url + "/api/order/place", orderData, {
+      headers: { token },
+    });
+    if (res.data.session.url) {
+      console.log("Redirecting to: ", );
+      window.location.href = res.data.session.url;
+    }
+    // if (res.data.success) {
+    //   const { session } = res.data;
+    //    window.location.replace(session.success_url);
+    // }
   };
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
