@@ -36,7 +36,7 @@ const page = () => {
       }
     });
     let orderData = {
-      address: formData.address,
+      address: formData,
       items: orderItems,
       amount: getTotalCartAmount() + 2,
     };
