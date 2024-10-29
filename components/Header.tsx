@@ -49,7 +49,7 @@ const Header = () => {
     setVisible(true);
   };
   return (
-    <header className="py-8 lg:px-20 sm:px-10 mx-5 sticky top-0 z-50 bg-white">
+    <header className="py-8 lg:px-20 sm:px-10  sticky top-0 z-50 bg-white">
       <Toast ref={toast} />
       <div className=" flex justify-between items-center">
         <Link href={"/"}>
