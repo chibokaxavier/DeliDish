@@ -44,13 +44,12 @@ const page = () => {
       headers: { token },
     });
     if (res.data.session.url) {
-      console.log("Redirecting to: ", );
+      console.log("Redirecting to: ");
       window.location.href = res.data.session.url;
     }
-    // if (res.data.success) {
-    //   const { session } = res.data;
-    //    window.location.replace(session.success_url);
-    // }
+    if (res.data.success) {
+      localStorage.removeItem("cartItems");
+    }
   };
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
