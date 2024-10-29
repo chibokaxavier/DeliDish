@@ -77,9 +77,9 @@ const Header = () => {
               </div>
             
 
-            <CiSearch className="md:text-4xl text-2xl cursor-pointer " />
+            <CiSearch className="text-2xl sm:text-3xl  md:text-4xl  cursor-pointer " />
             <Link href={"/cart"}>
-              <FaShoppingBasket className="md:text-4xl text-2xl cursor-pointer " />
+              <FaShoppingBasket className="text-2xl sm:text-3xl  md:text-4xl  cursor-pointer " />
             </Link>
             {loading ? (
               <Spinner size="md" className="" />
@@ -93,7 +93,7 @@ const Header = () => {
               >
                 <PopoverTrigger>
                   <button>
-                    <p className="size-10 flex justify-center items-center cursor-pointer rounded-full bg-rose-600 text-white">
+                    <p className=" size-7 md:size-10 flex justify-center items-center cursor-pointer rounded-full text-lg bg-rose-600 text-white">
                       {userEmail?.charAt(0)}
                     </p>
                   </button>
