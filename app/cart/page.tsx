@@ -23,7 +23,11 @@ const page = () => {
                 <div className="w-full mb-5">
                   <div className=" flex justify-between w-full pb-5">
                     <div className="flex gap-4">
-                      <img src={item.image} alt="" className="md:w-[200px] w-[150px] " />
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="md:w-[200px] w-[150px] "
+                      />
                       <div className="flex flex-col text-gray-500 leading-7">
                         <p className="text-black text-xl">{item.name}</p>
                         <p>{item.category}</p>
@@ -50,7 +54,9 @@ const page = () => {
                       </div>
                     </div>
                     <p className="">
-                      <p className="text-xl font-semibold">${item.price * cartItem.quantity}</p>{" "}
+                      <p className="text-xl font-semibold">
+                        ${item.price * cartItem.quantity}
+                      </p>{" "}
                     </p>
                   </div>
                   <hr className="text-gray-400" />
@@ -76,7 +82,14 @@ const page = () => {
             <p>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
           </div>
           <Link href={"/order"}>
-            <button className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg">
+            <button
+              disabled={getTotalCartAmount() === 0}
+              className={`${
+                getTotalCartAmount() === 0
+                  ? "cursor-not-allowed bg-gray-300"
+                  : ""
+              } bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
+            >
               Proceed to Checkout
             </button>
           </Link>

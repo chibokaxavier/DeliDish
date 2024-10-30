@@ -3,13 +3,24 @@ import FoodItem from "@/components/FoodItem";
 import { useStoreContext } from "@/context/StoreContext";
 import { assets } from "@/public/assets";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
-  const { token } = useStoreContext();
+  const { token, loading } = useStoreContext();
   const [data, setData] = useState([]);
   const url = "http://localhost:4000";
-  
+  const router = useRouter();
+
+  if (loading) {
+    return <div>loading......</div>;
+  }
+
+  if (!token) {
+    router.push("/");
+    return null;
+  }
+
   const fetchOrders = async () => {
     const res = await axios.get(url + "/api/order/get", {
       headers: { token },

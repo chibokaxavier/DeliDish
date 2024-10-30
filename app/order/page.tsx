@@ -3,11 +3,14 @@ import { useStoreContext } from "@/context/StoreContext";
 import { Input } from "@nextui-org/react";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
   const url = "http://localhost:4000";
-  const { getTotalCartAmount, cartItems, food_list, token } = useStoreContext();
+  const router = useRouter();
+  const { getTotalCartAmount, cartItems, food_list, token, loading } =
+    useStoreContext();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,14 +20,22 @@ const page = () => {
     state: "",
     phone: "",
   });
+
+  if (loading) {
+    return <div>loading......</div>;
+  }
+
+  if (!token) {
+    router.push("/");
+    return null;
+  }
+
+
   const onChangeHandler = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData({ ...formData, [name]: value });
   };
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const placeOrder = async (e: any) => {
     e.preventDefault();
@@ -51,6 +62,7 @@ const page = () => {
       localStorage.removeItem("cartItems");
     }
   };
+
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -205,7 +217,8 @@ const page = () => {
             <p>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
           </div>
           <button
-            className="bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg"
+          disabled={getTotalCartAmount() === 0}
+            className={`${ getTotalCartAmount() === 0 ? "cursor-not-allowed bg-gray-300":""} bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
             onClick={(e) => placeOrder(e)}
           >
             Proceed to Payment
