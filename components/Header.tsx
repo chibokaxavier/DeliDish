@@ -67,15 +67,13 @@ const Header = () => {
         </div>
         <div className="flex items-center">
           <div className="flex md:gap-7 gap-3 relative justify-center items-center">
-           
-              <div
-                className={`${
-                  getTotalCartAmount() === 0 ? "hidden" : "block"
-                } h-4 w-4 text-white flex justify-center text-xs items-center rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16`}
-              >
-                {Object.keys(cartItems).length}
-              </div>
-            
+            <div
+              className={`${
+                getTotalCartAmount() === 0 ? "hidden" : "block"
+              } h-4 w-4 text-white flex justify-center text-xs items-center rounded-full bg-rose-600 absolute md:-top-2 md:left-24 -top-3 left-16`}
+            >
+              {Object.keys(cartItems).length}
+            </div>
 
             <CiSearch className="text-2xl sm:text-3xl  md:text-4xl  cursor-pointer " />
             <Link href={"/cart"}>
@@ -100,9 +98,12 @@ const Header = () => {
                 </PopoverTrigger>
                 <PopoverContent className="py-4">
                   <div className="p-2 bg-white flex flex-col gap-5">
-                    <div className="flex gap-3 text-lg justify-center items-center cursor-pointer">
-                      <FaBagShopping className="" /> <p>Orders</p>
-                    </div>
+                    <Link href={"/my-orders"}>
+                      <div className="flex gap-3 text-lg justify-center items-center cursor-pointer">
+                        <FaBagShopping className="" /> <p>Orders</p>
+                      </div>
+                    </Link>
+
                     <hr className="text-black border border-black" />
                     <div
                       className="flex gap-3 text-lg justify-center items-center cursor-pointer"
