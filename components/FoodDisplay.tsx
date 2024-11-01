@@ -17,11 +17,11 @@ const FoodDisplay = ({ category }: CategoryProps) => {
         Top dishes near you
       </h2>
       {foodLoading ? (
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4   mt-7 gap-7 mb-10">
-          <Skeleton className="h-[400px] w-[300px] rounded-3xl" />{" "}
-          <Skeleton className="h-[400px] w-[300px] rounded-3xl" />{" "}
-          <Skeleton className="h-[400px] w-[300px] rounded-3xl" />{" "}
-          <Skeleton className="h-[400px] w-[300px] rounded-3xl" />
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4   mt-7 gap-7 mb-10">
+          <Skeleton className="h-[400px] lg:w-[300px] rounded-3xl" />{" "}
+          <Skeleton className="h-[400px] lg:w-[300px] rounded-3xl" />{" "}
+          <Skeleton className="h-[400px] lg:w-[300px] rounded-3xl" />{" "}
+          <Skeleton className="h-[400px] lg:w-[300px] rounded-3xl" />
         </div>
       ) : (
         <div className="grid lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4   mt-7 gap-7 mb-10">
