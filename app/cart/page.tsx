@@ -1,5 +1,6 @@
 "use client";
 import { useStoreContext } from "@/context/StoreContext";
+import { Skeleton } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
@@ -11,7 +12,24 @@ const page = () => {
     removeFromCart,
     addToCart,
     getTotalCartAmount,
+    loading,
   } = useStoreContext();
+
+  if (loading) {
+    return (
+      <div className="lg:mx-20 sm:mx-10 mx-5 my-20">
+        <div className="flex lg:flex-row flex-col justify-between">
+          <Skeleton className="h-[200px] lg:h-[300px] lg:w-[600px] rounded-3xl mb-5" />{" "}
+          <div className="flex flex-col gap-7">
+            <Skeleton className="h-[50px] lg:w-[600px] rounded-3xl" />{" "}
+            <Skeleton className="h-[50px] lg:w-[600px] rounded-3xl" />{" "}
+            <Skeleton className="h-[50px] lg:w-[600px] rounded-3xl" />{" "}
+            <Skeleton className="h-[50px] lg:w-[600px] rounded-3xl" />{" "}
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-5  mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
