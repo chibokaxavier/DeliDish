@@ -3,10 +3,8 @@ import { FoodItem, useStoreContext } from "@/context/StoreContext";
 import { Input, Skeleton } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Toast } from "primereact/toast";
-
-
 
 const Page = () => {
   const toast = useRef<Toast>(null);
@@ -14,6 +12,7 @@ const Page = () => {
   const router = useRouter();
   const { getTotalCartAmount, cartItems, food_list, token, loading } =
     useStoreContext();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,12 +22,12 @@ const Page = () => {
     state: "",
     phone: "",
   });
-
+  const [payment, setPayment] = useState(false);
   const showError = () => {
     toast.current?.show({
       severity: "error",
       summary: "Error",
-      detail: 'Please log in to access this page',
+      detail: "Please log in to access this page",
       life: 5000,
     });
   };
@@ -50,12 +49,14 @@ const Page = () => {
   }
 
   if (!token) {
-    showError()
+    showError();
     router.push("/");
     return null;
   }
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData({ ...formData, [name]: value });
@@ -63,6 +64,7 @@ const Page = () => {
 
   const placeOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPayment(true);
     const orderItems: FoodItem[] = [];
     food_list.map((item) => {
       if (cartItems[item._id]?.quantity > 0) {
@@ -80,16 +82,18 @@ const Page = () => {
     });
     if (res.data.session.url) {
       console.log("Redirecting to: ");
+      setPayment(false);
       window.location.href = res.data.session.url;
     }
     if (res.data.success) {
       localStorage.removeItem("cartItems");
+      setPayment(false);
     }
   };
 
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
-       <Toast ref={toast} />
+      <Toast ref={toast} />
       <div className="flex flex-col lg:flex-row lg:justify-between">
         <div className="lg:w-[40%]">
           <form action="" onSubmit={placeOrder}>
@@ -225,14 +229,14 @@ const Page = () => {
               />
             </div>
             <button
-              disabled={getTotalCartAmount() === 0}
+              disabled={getTotalCartAmount() === 0 || payment}
               className={`
             
                 disabled:cursor-not-allowed disabled:bg-gray-200
                bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
               type="submit"
             >
-              Proceed to Payment
+              {payment ? "Loading Checkout Page" : "Proceed to Payment"}
             </button>
           </form>
         </div>
