@@ -19,7 +19,7 @@ interface item {
 const Page = () => {
   const { token, loading } = useStoreContext();
   const [data, setData] = useState([]);
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const router = useRouter();
 
   useEffect(() => {

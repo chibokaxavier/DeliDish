@@ -57,7 +57,7 @@ interface StoreContextType {
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider = ({ children }: ProviderProps) => {
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const [count, setCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [foodLoading, setFoodLoading] = useState(false);

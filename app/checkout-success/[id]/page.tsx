@@ -8,7 +8,7 @@ import { FaCheckCircle } from "react-icons/fa";
 const Page = ({ params }: { params: { id: string } }) => {
   const orderId = params.id;
  
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const pathname = usePathname();
   const router = useRouter();
 

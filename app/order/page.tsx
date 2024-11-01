@@ -10,7 +10,7 @@ import { Toast } from "primereact/toast";
 
 const Page = () => {
   const toast = useRef<Toast>(null);
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const router = useRouter();
   const { getTotalCartAmount, cartItems, food_list, token, loading } =
     useStoreContext();

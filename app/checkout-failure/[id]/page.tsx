@@ -8,7 +8,7 @@ import { MdCancel } from "react-icons/md";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const orderId = params.id;
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const router = useRouter();
 
   useEffect(() => {

@@ -20,7 +20,7 @@ const SignupModal = () => {
   const { setVisible, visible, setToken, setUserEmail } =
     useStoreContext();
   const [auth, setAuth] = useState("login");
-  const url = "http://localhost:4000";
+  const url = "https://delisdish-api.onrender.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
