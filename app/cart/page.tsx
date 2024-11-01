@@ -13,7 +13,7 @@ const page = () => {
     getTotalCartAmount,
   } = useStoreContext();
   return (
-    <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
+    <div className="lg:mx-20 sm:mx-10 mx-5 mt-5  mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
         <div className="lg:w-[65%]">
           {food_list.map((item, index) => {
@@ -65,6 +65,16 @@ const page = () => {
             }
             return null; // If cartItem is undefined or quantity is 0, return null to render nothing.
           })}
+          {getTotalCartAmount() === 0 && (
+            <div className="flex justify-center items-center xl:mt-0">
+              <img
+                src="/empty-cart.png"
+                alt=""
+                className="md:w-[500px] md:h-[500px] lg:h-[500px] lg:w-[600px] object-contain "
+              />
+              {/* <p>Your Cart is empty ,click here to start shopping.</p> */}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-5  mt-7 sm:mt-0 lg:w-[30%] order-2 sm:order-1">
@@ -84,11 +94,10 @@ const page = () => {
           <Link href={"/order"}>
             <button
               disabled={getTotalCartAmount() === 0}
-              className={`${
-                getTotalCartAmount() === 0
-                  ? "cursor-not-allowed bg-gray-300"
-                  : ""
-              } bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
+              className={`
+            
+                  disabled:cursor-not-allowed disabled:bg-gray-200
+                 bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
             >
               Proceed to Checkout
             </button>

@@ -30,7 +30,6 @@ const page = () => {
     return null;
   }
 
-
   const onChangeHandler = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -199,6 +198,16 @@ const page = () => {
                 name="phone"
               />
             </div>
+            <button
+              disabled={getTotalCartAmount() === 0}
+              className={`
+            
+                disabled:cursor-not-allowed disabled:bg-gray-200
+               bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
+              type="submit"
+            >
+              Proceed to Payment
+            </button>
           </form>
         </div>
 
@@ -212,17 +221,10 @@ const page = () => {
             <p>Delivery Fee</p>
             <p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
           </div>{" "}
-          <div className="flex justify-between ">
+          <div className="flex justify-between border-b-2 pb-2 border-gray-200">
             <p className="font-bold">Total</p>
             <p>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
           </div>
-          <button
-          disabled={getTotalCartAmount() === 0}
-            className={`${ getTotalCartAmount() === 0 ? "cursor-not-allowed bg-gray-300":""} bg-rose-600 px-10 py-4 w-[300px] uppercase text-white rounded-lg`}
-            onClick={(e) => placeOrder(e)}
-          >
-            Proceed to Payment
-          </button>
         </div>
       </div>
     </div>
