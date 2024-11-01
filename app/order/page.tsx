@@ -4,9 +4,11 @@ import { Input, Skeleton } from "@nextui-org/react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Toast } from "primereact/toast";
 
 const page = () => {
+  const toast = useRef<Toast>(null);
   const url = "http://localhost:4000";
   const router = useRouter();
   const { getTotalCartAmount, cartItems, food_list, token, loading } =
@@ -20,6 +22,15 @@ const page = () => {
     state: "",
     phone: "",
   });
+
+  const showError = () => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail: 'Please log in to access this page',
+      life: 5000,
+    });
+  };
 
   if (loading) {
     return (
@@ -38,6 +49,7 @@ const page = () => {
   }
 
   if (!token) {
+    showError()
     router.push("/");
     return null;
   }
@@ -76,6 +88,7 @@ const page = () => {
 
   return (
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-14 mb-36 ">
+       <Toast ref={toast} />
       <div className="flex flex-col lg:flex-row lg:justify-between">
         <div className="lg:w-[40%]">
           <form action="" onSubmit={placeOrder}>

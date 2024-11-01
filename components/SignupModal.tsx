@@ -186,17 +186,7 @@ const SignupModal = () => {
                       >
                         Login
                       </button>
-                      <div className="flex gap-2 justify-center mt-4 ">
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          className=" h-6 w-6"
-                        />
-                        <p className="text-sm mt-[2px]">
-                          I agree to the terms of use and privacy policy.
-                        </p>
-                      </div>
+                    
                     </form>
                     <p className="text-sm mb-5">
                       Create a new account ?{" "}
@@ -277,17 +267,7 @@ const SignupModal = () => {
                       >
                         Create Account
                       </button>
-                      <div className="flex gap-2 justify-center mt-4 ">
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          className=" h-6 w-6"
-                        />
-                        <p className="text-sm mt-[2px]">
-                          I agree to the terms of use and privacy policy.
-                        </p>
-                      </div>
+                     
                     </form>
                     <p className="text-sm mb-5">
                       Have an account?{" "}
