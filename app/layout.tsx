@@ -3,7 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { NextUIProvider } from "@nextui-org/react";
-import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
+import { PrimeReactProvider } from "primereact/api";
 import { StoreContextProvider } from "@/context/StoreContext";
 import Footer from "@/components/Footer";
 import SignupModal from "@/components/SignupModal";

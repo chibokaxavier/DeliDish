@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import Nav from "@/components/Nav";
-import { Button, Spinner } from "@nextui-org/react";
+import {  Spinner } from "@nextui-org/react";
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import MobileNav from "./MobileNav";
 import { GiFoodTruck } from "react-icons/gi";
@@ -17,7 +17,6 @@ const Header = () => {
   const toast = useRef<Toast>(null);
   const {
     setVisible,
-    visible,
     token,
     userEmail,
     setToken,

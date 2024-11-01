@@ -3,9 +3,9 @@ import { useStoreContext } from "@/context/StoreContext";
 import { Skeleton } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
-const page = () => {
+const Page = () => {
   const {
     food_list,
     cartItems,
@@ -34,11 +34,11 @@ const page = () => {
     <div className="lg:mx-20 sm:mx-10 mx-5 mt-5  mb-36 ">
       <div className="flex flex-col lg:flex-row lg:justify-between">
         <div className="lg:w-[65%]">
-          {food_list.map((item, index) => {
+          {food_list.map((item,index) => {
             const cartItem = cartItems[item._id];
             if (cartItem && cartItem.quantity > 0) {
               return (
-                <div className="w-full mb-5">
+                <div className="w-full mb-5" key={index}>
                   <div className=" flex justify-between w-full pb-5">
                     <div className="flex gap-4">
                       <img
@@ -126,4 +126,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

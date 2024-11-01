@@ -1,27 +1,33 @@
 "use client";
-import FoodItem from "@/components/FoodItem";
 import { useStoreContext } from "@/context/StoreContext";
-import { assets } from "@/public/assets";
 import { Skeleton } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { TbMoodEmptyFilled } from "react-icons/tb";
 
-const page = () => {
+interface order {
+  items: [];
+  amount: number;
+  status: string;
+}
+
+interface item {
+  name: string;
+  quantity: number;
+}
+const Page = () => {
   const { token, loading } = useStoreContext();
   const [data, setData] = useState([]);
   const url = "http://localhost:4000";
   const router = useRouter();
 
-  
   useEffect(() => {
     // Redirect if no token
     if (!loading && !token) {
       router.push("/");
     }
   }, [loading, token, router]);
-
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -65,14 +71,14 @@ const page = () => {
       {/* Horizontal scrollable wrapper */}
       <div className="overflow-x-auto ">
         <div className="min-w-[1300px] h-screen ">
-          {data.map((order: any, index) => (
+          {data.map((order: order, index) => (
             <div
               key={index}
               className="grid grid-cols-8 items-center gap-4 border border-gray-200 p-4 mb-5"
             >
               <img src="/parcel_icon.png" alt="Parcel Icon" className="" />
               <p className="col-span-3 pr-5 text-sm">
-                {order.items.map((item: any, idx: number) => (
+                {order.items.map((item: item, idx: number) => (
                   <span key={idx}>
                     {item.name} x {item.quantity}
                     {idx !== order.items.length - 1 && ", "}
@@ -94,12 +100,12 @@ const page = () => {
               <TbMoodEmptyFilled className="text-8xl mb-4 text-gray-400" />
               <h1 className="text-2xl font-semibold">No Orders Found</h1>
               <p className="mt-2 text-center">
-                It looks like you haven't placed any orders yet.
+                It looks like you have not placed any orders yet.
                 <br />
                 Start exploring our collection and place your first order!
               </p>
               <button
-                onClick={() => (window.location.href = "/")} // Change '/shop' to your shop or homepage URL
+                onClick={() => (window.location.href = "/")} // Change '/shop' to your shop or homepagP URL
                 className="mt-6 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg uppercase"
               >
                 Go to Shop
@@ -112,4 +118,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

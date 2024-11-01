@@ -1,13 +1,14 @@
 "use client";
-import { useStoreContext } from "@/context/StoreContext";
+import { FoodItem, useStoreContext } from "@/context/StoreContext";
 import { Input, Skeleton } from "@nextui-org/react";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 
-const page = () => {
+
+
+const Page = () => {
   const toast = useRef<Toast>(null);
   const url = "http://localhost:4000";
   const router = useRouter();
@@ -54,27 +55,27 @@ const page = () => {
     return null;
   }
 
-  const onChangeHandler = (e: any) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData({ ...formData, [name]: value });
   };
 
-  const placeOrder = async (e: any) => {
+  const placeOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let orderItems: any[] = [];
+    const orderItems: FoodItem[] = [];
     food_list.map((item) => {
       if (cartItems[item._id]?.quantity > 0) {
         const itemInfo = { ...item, quantity: cartItems[item._id].quantity };
         orderItems.push(itemInfo);
       }
     });
-    let orderData = {
+    const orderData = {
       address: formData,
       items: orderItems,
       amount: getTotalCartAmount() + 2,
     };
-    let res = await axios.post(url + "/api/order/place", orderData, {
+    const res = await axios.post(url + "/api/order/place", orderData, {
       headers: { token },
     });
     if (res.data.session.url) {
@@ -256,4 +257,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

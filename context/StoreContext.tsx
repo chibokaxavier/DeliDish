@@ -16,7 +16,7 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-interface FoodItem {
+export interface FoodItem {
   _id: string;
   name: string;
   image: string;

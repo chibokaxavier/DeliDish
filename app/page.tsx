@@ -4,8 +4,6 @@ import Banner from "@/components/Banner";
 import ExploreMenu from "@/components/ExploreMenu";
 import FoodDisplay from "@/components/FoodDisplay";
 import SignupModal from "@/components/SignupModal";
-import { menu_list } from "@/public/assets";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {

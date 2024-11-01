@@ -1,6 +1,6 @@
 "use client";
-import { StoreContext, useStoreContext } from "@/context/StoreContext";
-import React, { useContext } from "react";
+import {  useStoreContext } from "@/context/StoreContext";
+import React from "react";
 import FoodItem from "./FoodItem";
 import { Skeleton } from "@nextui-org/react";
 
@@ -9,7 +9,7 @@ interface CategoryProps {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FoodDisplay = ({ category, setCategory }: CategoryProps) => {
+const FoodDisplay = ({ category }: CategoryProps) => {
   const { food_list, foodLoading } = useStoreContext();
   return (
     <div className="mt-7">

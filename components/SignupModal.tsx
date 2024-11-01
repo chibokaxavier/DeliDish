@@ -1,32 +1,24 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
+import React, {  useRef, useState } from "react";
+
 import { useStoreContext } from "@/context/StoreContext";
-import { InputText } from "primereact/inputtext";
-import { FloatLabel } from "primereact/floatlabel";
-import { Checkbox } from "primereact/checkbox";
+
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Select,
-  SelectItem,
+  
   Input,
-  Spinner,
+ 
 } from "@nextui-org/react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 
 const SignupModal = () => {
   const toast = useRef<Toast>(null);
-  const { setVisible, visible, setToken, setUserEmail, fetchCartData } =
+  const { setVisible, visible, setToken, setUserEmail } =
     useStoreContext();
-  const [value, setValue] = useState<string>("");
-  const [checked, setChecked] = useState<boolean>(false);
   const [auth, setAuth] = useState("login");
   const url = "http://localhost:4000";
   const [formData, setFormData] = useState({
@@ -39,12 +31,12 @@ const SignupModal = () => {
     password: "",
   });
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData({ ...formData, [name]: value });
   };
-  const handleInput2 = (e: any) => {
+  const handleInput2 = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData2({ ...formData2, [name]: value });
@@ -66,7 +58,7 @@ const SignupModal = () => {
     });
   };
 
-  const onSubmitSignup = async (e: any) => {
+  const onSubmitSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${url}/api/user/register`, formData);
@@ -81,20 +73,23 @@ const SignupModal = () => {
       } else {
         showError(res.data.message);
       }
-    } catch (error: any) {
-      console.log(error);
-      if (error.response && error.response.data) {
-        // Display error message from backend if available
-        showError(error.response.data.message);
-        console.log(error.response.data.message);
+    } catch (error: unknown) {
+      console.error(error);
+      
+      if (axios.isAxiosError(error)) {
+        // Error is an Axios error
+        if (error.response && error.response.data) {
+          // Display error message from backend if available
+          showError(error.response.data.message);
+          console.log(error.response.data.message);
+        }
       } else {
         // Fallback for network errors or other unexpected issues
         showError("An unexpected error occurred.");
       }
-      console.log(error);
     }
   };
-  const onSubmitLogin = async (e: any) => {
+  const onSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${url}/api/user/login`, formData2);
@@ -113,16 +108,20 @@ const SignupModal = () => {
       } else {
         showError(res.data.message);
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        // Display error message from backend if available
-        showError(error.response.data.message);
-        console.log(error.response.data.message, "testing backedn");
+    } catch (error: unknown) {
+      console.error(error);
+      
+      if (axios.isAxiosError(error)) {
+        // Error is an Axios error
+        if (error.response && error.response.data) {
+          // Display error message from backend if available
+          showError(error.response.data.message);
+          console.log(error.response.data.message);
+        }
       } else {
         // Fallback for network errors or other unexpected issues
         showError("An unexpected error occurred.");
       }
-      console.log(error);
     }
   };
 
@@ -136,7 +135,7 @@ const SignupModal = () => {
         onOpenChange={setVisible}
       >
         <ModalContent>
-          {(onClose) => (
+       
             <>
               {auth === "login" && (
                 <>
@@ -283,7 +282,7 @@ const SignupModal = () => {
                 </>
               )}
             </>
-          )}
+          
         </ModalContent>
       </Modal>{" "}
     </div>

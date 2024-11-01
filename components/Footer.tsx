@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
-import { FaFacebookF } from "react-icons/fa";
+import React  from "react";
+
 import { FaInstagram } from "react-icons/fa";
 import { FaPinterest } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa6";
-import { GiFoodTruck, GiHospitalCross } from "react-icons/gi";
+import { GiFoodTruck } from "react-icons/gi";
 
 const Footer = () => {
   return (

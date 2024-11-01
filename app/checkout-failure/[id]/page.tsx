@@ -1,16 +1,14 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import {  useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+
 import { MdCancel } from "react-icons/md";
 
-const page = ({ params }: { params: { id: string } }) => {
+const Page = ({ params }: { params: { id: string } }) => {
   const orderId = params.id;
-  const [success, setSuccess] = useState(false);
   const url = "http://localhost:4000";
-  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +21,6 @@ const page = ({ params }: { params: { id: string } }) => {
         router.push("/");
       }
     };
-    setSuccess(false);
     verifyOrder();
   }, []);
 
@@ -51,4 +48,4 @@ const page = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

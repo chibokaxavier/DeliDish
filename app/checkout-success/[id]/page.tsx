@@ -2,12 +2,12 @@
 import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
-const page = ({ params }: { params: { id: string } }) => {
+const Page = ({ params }: { params: { id: string } }) => {
   const orderId = params.id;
-  const [success, setSuccess] = useState(false);
+ 
   const url = "http://localhost:4000";
   const pathname = usePathname();
   const router = useRouter();
@@ -23,7 +23,7 @@ const page = ({ params }: { params: { id: string } }) => {
       }
     };
     if (pathname.includes("/checkout-success")) {
-      setSuccess(true);
+     
       verifyOrder();
     }
   }, []);
@@ -49,4 +49,4 @@ const page = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

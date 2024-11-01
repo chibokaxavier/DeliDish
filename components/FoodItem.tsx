@@ -1,7 +1,7 @@
 "use client";
 import { useStoreContext } from "@/context/StoreContext";
 import { Rating } from "primereact/rating";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 
@@ -16,7 +16,7 @@ interface FoodItemProps {
 
 const FoodItem = ({ id, name, price, description, image }: FoodItemProps) => {
   const [value, setValue] = useState<number | undefined>(0);
-  const { cartItems, addToCart, removeFromCart,foodLoading } = useStoreContext();
+  const { cartItems, addToCart, removeFromCart } = useStoreContext();
 
   // Set count based on cartItems
   const count = cartItems[id]?.quantity || 0;
